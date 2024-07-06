@@ -83,72 +83,74 @@ public void setAge(int age) {
 6. **Accessor** atau getter digunakan untuk mengambil nilai dari suatu atribut. Pada kode ini, getName, getAge, getSalary, dan getDepartment adalah contoh method accessor.
 7. 
 ```bash
-public String getNama() {
-    return nama;
+public String getName() {
+    return name;
 }
 
-public String getNpm() {
-    return npm;
+public int getAge() {
+    return age;
 }
+
 ```
 
-7. **Encapsulation** adalah konsep menyembunyikan data dengan membuat atribut menjadi private dan hanya bisa diakses melalui method. Pada kode ini, atribut `nama` dan `npm` dienkapsulasi dan hanya bisa diakses melalui method getter dan setter.
+7. **Encapsulation** adalahkonsep menyembunyikan data dengan membuat atribut menjadi private dan hanya bisa diakses melalui method. Pada kode ini, atribut name dan age dienkapsulasi dan hanya bisa diakses melalui method getter dan setter.
 
 ```bash
-private String nama;
-private String npm;
+private String name;
+private int age;
+
 ```
 
-8. **Inheritance** adalah konsep di mana sebuah class bisa mewarisi property dan method dari class lain. Pada kode ini, `MahasiswaDetail` mewarisi `Mahasiswa` dengan sintaks `extends`.
-
+8. **Inheritance** adalah konsep di mana sebuah class bisa mewarisi property dan method dari class lain. Pada kode ini, Employee mewarisi Person dengan sintaks extends.
 ```bash
-public class MahasiswaDetail extends Mahasiswa {
+public class Employee extends Person {
     ...
 }
 ```
 
-9. **Polymorphism** adalah konsep di mana sebuah nama dapat digunakan untuk merujuk ke beberapa tipe atau bentuk objek berbeda. Ini memungkinkan metode-metode dengan nama yang sama untuk berperilaku berbeda tergantung pada tipe objek yang mereka manipulasi, polymorphism bisa berbentuk Overloading ataupun Overriding. Pada kode ini, method `displayInfo(String)` di `Mahasiswa` merupakan overloading method `displayInfo` dan `displayInfo` di `MahasiswaDetail` merupakan override dari method `displayInfo` di `Mahasiswa`.
-
+9. **Polymorphism** adalah konsep di mana sebuah nama dapat digunakan untuk merujuk ke beberapa tipe atau bentuk objek berbeda. Ini memungkinkan metode-metode dengan nama yang sama untuk berperilaku berbeda tergantung pada tipe objek yang mereka manipulasi, polymorphism bisa berbentuk Overloading ataupun Overriding. Pada kode ini, method displayInfo(String) di Employee merupakan overloading method displayInfo dan displayInfo di Employee merupakan override dari method displayInfo di Person.
 ```bash
-public String displayInfo(String kelas) {
-    return displayInfo() + "\nKelas: " + kelas;
+public String displayInfo(String department) {
+    return displayInfo() + "\nDepartment: " + department;
 }
 
 @Override
 public String displayInfo() {
     ...
 }
+
 ```
 
-10. **Seleksi** adalah statement kontrol yang digunakan untuk membuat keputusan berdasarkan kondisi. Pada kode ini, digunakan seleksi `if else` dalam method `getFakultas` dan seleksi `switch` dalam method `getProdi`.
+10. **Seleksi** adalah statement kontrol yang digunakan untuk membuat keputusan berdasarkan kondisi. Pada kode ini, digunakan seleksi if else dalam method getBonus dan seleksi switch dalam method getAllowance.
 
 ```bash
-public String getFakultas() {
-    if(getNpm().substring(2, 4).equals("10")){
-        return "Teknologi Informasi";
+public void giveBonus() {
+    if (salary > 60000) {
+        salary += 5000; // Menambahkan bonus
+        System.out.println("Bonus diberikan! Gaji baru: " + salary);
     } else {
-        return "Fakultas lain";
-    }
-
-    //return getNpm().substring(2, 4).equals("10") ? "Teknologi Informasi" : "Fakultas lain";
-}
-
-public String getProdi() {
-    switch(getNpm().substring(4, 6)) {
-        case "01":
-            return "Teknik Informatika";
-        case "02":
-            return "Sistem Informasi";
-        default:
-            return "Prodi lain";
+        System.out.println("Gaji kurang dari 60000, tidak mendapatkan bonus.");
     }
 }
+
+public void giveAllowance() {
+    if (department.equalsIgnoreCase("IT")) {
+        setSalary(getSalary() + 10000); // Menambahkan tunjangan
+        System.out.println("Tunjangan diberikan! Gaji baru: " + getSalary());
+    } else {
+        System.out.println("Departemen tidak memenuhi syarat untuk tunjangan.");
+    }
+}
+
+
 ```
 
 11. **Perulangan** adalah statement kontrol yang digunakan untuk menjalankan blok kode berulang kali. Pada kode ini, digunakan loop `for` untuk meminta input dan menampilkan data.
 
 ```bash
-for (int i = 0; i < mahasiswas.length; i++) {
+for (Person person : people) {
+    person.displayInfo();
+    System.out.println();
     ...
 }
 ```
@@ -156,18 +158,38 @@ for (int i = 0; i < mahasiswas.length; i++) {
 12. **Input Output Sederhana** digunakan untuk menerima input dari user dan menampilkan output ke user. Pada kode ini, digunakan class `Scanner` untuk menerima input dan method `System.out.println` untuk menampilkan output.
 
 ```bash
-Scanner scanner = new Scanner(System.in);
-System.out.print("Masukkan Nama Mahasiswa ke-" + (i + 1) + ": ");
-String nama = scanner.nextLine();
+ try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter name: ");
+            String name = reader.readLine();
 
-System.out.println("\nData Mahasiswa:");
-System.out.println(mahasiswa.displayInfo());
+            System.out.print("Enter age: ");
+            int age = Integer.parseInt(reader.readLine());
+
+            System.out.print("Enter salary: ");
+            double salary = Double.parseDouble(reader.readLine());
+
+            System.out.print("Enter department: ");
+            String department = reader.readLine();
+
+            // Membuat objek Manager dengan data yang diinput
+            Manager newManager = new Manager(name, age, salary, department);
+            people.add(newManager);
+
+            // Menampilkan informasi Manager baru
+            System.out.println("New Manager added:");
+            newManager.displayInfo();
+        } catch (IOException e) {
+            System.out.println("An error occurred while reading input.");
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format.");
+        }
 ```
 
-13. **Array** adalah struktur data yang digunakan untuk menyimpan beberapa nilai dalam satu variabel. Pada kode ini, `MahasiswaDetail[] mahasiswas = new MahasiswaDetail[2];` adalah contoh penggunaan array.
+13. **Array** adalah struktur data yang digunakan untuk menyimpan beberapa nilai dalam satu variabel. Pada kode ini, ArrayList<Person> people = new ArrayList<>(); adalah contoh penggunaan array.
 
 ```bash
-MahasiswaDetail[] mahasiswas = new MahasiswaDetail[2];
+ArrayList<Person> people = new ArrayList<>();
 ```
 
 14. **Error Handling** digunakan untuk menangani error yang mungkin terjadi saat runtime. Pada kode ini, digunakan `try catch` untuk menangani error.
@@ -175,9 +197,11 @@ MahasiswaDetail[] mahasiswas = new MahasiswaDetail[2];
 ```bash
 try {
     // code that might throw an exception
-} catch (Exception e) {
-    System.out.println("Error: " + e.getMessage());
-}
+ } catch (IOException e) {
+            System.out.println("An error occurred while reading input.");
+ } catch (NumberFormatException e) {
+            System.out.println("Invalid number format.");
+        }
 ```
 
 ## Usulan nilai
@@ -202,5 +226,5 @@ try {
 
 ## Pembuat
 
-Nama: Muhammad Edya Rosadi
-NPM: 2110010001
+Nama: Rosi Datul Alfah
+NPM: 2210010070
